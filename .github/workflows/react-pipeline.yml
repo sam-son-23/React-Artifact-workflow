@@ -2,7 +2,6 @@ name: React Project Artifact
 on:
   push:
     branches:
-    - master
     - main
 
 jobs:
