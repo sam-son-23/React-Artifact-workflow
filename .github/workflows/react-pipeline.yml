@@ -1,7 +1,7 @@
 name: React Project Artifact
 on:
-  # schedule:
-  #   - cron: "*/5 * * * *" # execute after every 5 minutes
+  schedule:
+  - cron: "*/1 * * * *" # execute after every 5 minutes
 
   workflow_dispatch: # execute your job manually from Github
   push:
@@ -32,3 +32,14 @@ jobs:
       with:
         name: react-build
         path: dist
+    - name: Send Email Notification
+      uses: dawidd6/action-send-mail@v6
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: React App Build Successfully
+        to: ${{secrets.RECEIVER_EMAIL}}
+        from: ${{secrets.MAIL_USERNAME}}
+        body: "Build job of ${{github.repository}} for Branch: ${{ github.ref_name }} completed successfully!"
